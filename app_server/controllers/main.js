@@ -1,6 +1,8 @@
 var CoinMarketCap = require("node-coinmarketcap");
 var coinmarketcap = new CoinMarketCap();
 
+var yahooFinance = require('yahoo-finance');
+
 var btc = 0;
 var eth = 0;
 var iot = 0;
@@ -25,6 +27,13 @@ module.exports.getPrices = function (req, res) {
     eth = coins.get("ETH").price_usd;
     iot = coins.get("MIOTA").price_usd
   });
+
+  yahooFinance.quote({
+    symbols: [ 'TSLA', 'SPLK' ] , 
+    modules: [ 'price' ]      // optional; default modules.
+  }, function(err, quote) {
+       console.log(quote.TSLA.price.regularMarketPrice);
+     });
 
   // Calculate values
   btcval = (btc*btcshare).toFixed(2);
