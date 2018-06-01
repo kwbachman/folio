@@ -81,7 +81,6 @@
         <h1>Investment Portfolio</h1>
         <p>This is a test project for tracking the value of various cryptocurrency and stock investments with an easy to use portfolio.</p>
         <hr width="100%" size="1">
-
         <table>
             <tr>
                 <th>Investment</th>
@@ -89,30 +88,24 @@
                 <th>Shares</th>
                 <th>Value</th>
             </tr>
-            <tr>
-                <td>Bitcoin</td>
-                <td><%= BTC %></td>
-                <td><%= BTCSHR %></td>
-                <td><%= BTCVAL %></td>
+            <% var total = 0; %>
+            <% console.log(invest) %>
+            <% for (var key in invest) { %>
+            <tr>              
+                <td><%= invest[key].symbol %></td>
+                <td><%= invest[key].USD %></td>
+                <td><%= invest[key].shares %></td>
+                <td><%= invest[key].val %></td>
             </tr>
-            <tr>
-                <td>Ether</td>
-                <td><%= ETH %></td>
-                <td><%= ETHSHR %></td>
-                <td><%= ETHVAL %></td>
-            </tr>
-            <tr>
-                <td>IOTA</td>
-                <td><%= IOT %></td>
-                <td><%= IOTSHR %></td>
-                <td><%= IOTVAL %></td>
-            </tr>
+            <% total = total + invest[key].val %>
+            <% } %>
+            <% console.log(total) %>
             <tr>
                 <td><b>TOTAL</b></td>
                 <td></td>
                 <td></td>
-                <td><b><%= TOTAL %></b></td>
-            </tr>        
+                <td><b><%=total %></b></td>
+            </tr>                    
         </table>
         <br>
         <br>
