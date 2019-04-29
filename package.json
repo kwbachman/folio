@@ -4,7 +4,7 @@
   "description": "Application used to determine cyrptocurrency investment values",
   "main": "app.js",
   "scripts": {
-    "test": "HELLO - not sure what this test does",
+    "test": "echo \"Staring node app\"",
     "start": "node app.js"
   },
   "keywords": [
