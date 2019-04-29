@@ -5,10 +5,16 @@
 var express = require('express'),
     app     = express();
 
+console.log('express imported...');
+
 var path = require('path');
+
+console.log('path imported...');
 
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
+
+console.log('port/ip set...');    
 
 //   import custom mongoose code
 require('./app_api/models/db');
