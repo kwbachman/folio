@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var dbURI = 'mongodb://kevin@192.168.1.135:27017/folio';
+var dbURI = 'mongodb://userV1Q:xpBockn8Oe2QdGuo@mongodb-nodejs.127.0.0.1.nip.io:27017/foliodb';
 console.log('Connecting to MongoDB...') 
 mongoose.connect(dbURI);
 
