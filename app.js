@@ -13,6 +13,8 @@ var express = require('express'),
 var port = process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080,
     ip   = process.env.IP   || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
 
+console.log('port/ip set...');    
+
 //   import custom mongoose code
 require('./app_api/models/db');
 require('./app_api/config/passport');
