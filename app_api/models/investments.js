@@ -1,32 +1,20 @@
 var mongoose = require('mongoose');
 
-var investmentSchema = new mongoose.Schema({
+var investmentDetailSchema = new mongoose.Schema({
     symbol: String,
     shares: Number
 });
 
-var userSchema = new mongoose.Schema({
+var investmentSchema = new mongoose.Schema({
     username: { type: String, required: true, index: { unique: true } },
     password: { type: String, required: true },
-    investments: [investmentSchema]
+    investments: [investmentDetailSchema]
 });
 
-mongoose.model('Investment', userSchema);
+mongoose.model('Investment', investmentSchema);
 
-// db.investments.save({
-//  username: 'kevin',
-//  password: 'kbachman1',
-//  investments: [{
-//   symbol: 'btc',
-//   shares: 0.028644
-//  }, {
-//   symbol: 'iot',
-//   shares: 100
-//  }, {
-//   symbol: 'eth',
-//   shares: 0.25
-//  }]
-// })
+// db.investments.save({ investor: 'kevin', investments: [{  symbol: 'btc',  shares: 0.028644 }, {  symbol: 'iot',  shares: 100 }, {  symbol: 'eth',  shares: 0.25 }]})
+
 // 
 // db.inventory.insertMany( [
 //    { item: "journal", qty: 25, size: { h: 14, w: 21, uom: "cm" }, status: "A" },
@@ -36,8 +24,6 @@ mongoose.model('Investment', userSchema);
 //    { item: "postcard", qty: 45, size: { h: 10, w: 15.25, uom: "cm" }, status: "A" }
 // ]);
 // 
-// 
-// 
 // var cursor = db.collection('investments').find({ 
 //   username: "kevin"
 // }).project({ password: 1 });
@@ -45,3 +31,4 @@ mongoose.model('Investment', userSchema);
 // db.investments.find( { username: "kevin" }, { password: 1 } )
 // 
 // db.investments.find({ username: "kevin" }, { password: 1, _id: 0 })
+// 

@@ -14,14 +14,6 @@ var apiOptions = {
 if (process.env.NODE_ENV === 'production') {
   apiOptions.server = "http"
 }
-var requestOptions = {
-  url : 'http://localhost:8080/api/users/kevin',
-  method : "GET",
-  json : {}, 
-  qs : {
-    offset : 20
-  }
-};
 
 // global variables
 var btc = 0;
@@ -72,84 +64,26 @@ var getPrices = function (req, res, body) {
 
   })
   .catch(console.error)
-
-
-
-// investement array after the loop is done looks like this...
-// [ { symbol: 'btc', shares: 0.028644, USD: 7549.68, val: 216.25 },
-//   { symbol: 'iot', shares: 100, USD: 1.77, val: 177 },
-//   { symbol: 'eth', shares: 0.25, USD: 574.25, val: 143.56 } ]
-
-  // Create an object that can be passed into the render method
-
-  // yahooFinance.quote({
-  //   symbols: [ 'TSLA', 'SPLK' ] , 
-  //   modules: [ 'price' ]      // optional; default modules.
-  // }, function(err, quote) {
-  //      console.log(quote.TSLA.price.regularMarketPrice);
-  //    });
-
-  // Calculate values
-  // btcval = (btc*btcshare).toFixed(2);
-  // ethval = (eth*ethshare).toFixed(2);
-  // iotval = (iot*iotshare).toFixed(2);
-  // total = (Number(btcval)+Number(ethval)+Number(iotval)).toFixed(2);
-
 }
 
 var renderFolio = function(req, res, invest){
   // Insert the calculated values into the html and render it
-  // res.render('index', {BTC: btc, ETH: eth, IOT: iot, 
-  //                          BTCSHR: btcshare, ETHSHR: ethshare, IOTSHR: iotshare,
-  //                          BTCVAL: btcval, ETHVAL: ethval, IOTVAL: iotval,
-  //                          TOTAL: total});
-  console.log(invest);
   res.render('index', {invest: invest});
-
 }; 
 
-var parseApiReturn = function(body) {
-    //var index = body.investments.findIndex(p => p.symbol == "eth")
-    //var index2 = body.investments.find(p => p.symbol == "eth")
-    //console.log(index);
-    //console.log(index2.shares);
-    var vals = {};
-    var inv = body.investments;
-    var str;
-    //inv.forEach(p => console.log(p.symbol));
-    // inv.forEach(function(p) {
-    //   console.log(p);
-    //   console.log(p.symbol);
-    // })
-    // for (var i = 0; i < inv.length; ++i) {
-    //   vals[i] = inv[i];
-    //   str = '"' + inv[i].symbol + '"'
-    //   console.log(str);
-    //   vals[i].price = i;
-    // }
-    //console.log(vals);
-    for (var i = 0; i < inv.length; ++i) {
-      vals[i] = inv[i];
-      str = '"' + inv[i].symbol + '"'
-      vals[i].price = i;
-    }
-    console.log(vals); 
-
-
-    //console.log(body.investments);
-  // { investments:
-  //  [ { symbol: 'btc', shares: 0.028644 },
-  //    { symbol: 'iot', shares: 100 },
-  //    { symbol: 'eth', shares: 0.25 } ],
-  // _id: '5ad401c0618994b875f29986',
-  // username: 'kevin',
-  // password: 'kbachman1' }
-}; 
+module.exports.getHome = function(req, res) {
+  // Insert the calculated values into the html and render it
+  res.render('home',{});
+};
 
 module.exports.getFolio = function(req, res) {
+  //console.log("app server get username from cookie " + req.payload.username);
   // call internal api to retrieve users investments
   var requestOptions, path;
-  path = '/api/users/kevin';
+  //path = '/api/users/kevin';
+  path = '/api/users/' + req.payload.username;
+  //path = '/api/investments';
+  
   requestOptions = {
     url : apiOptions.server + path,
     method : "GET",
@@ -158,12 +92,8 @@ module.exports.getFolio = function(req, res) {
   request (
     requestOptions,
     function(err, response, body) {
-      //console.log(body);
-      //console.log(body.investments);
-      //parseApiReturn(body);
-      //getFolio(req, res);
+      console.log(body);
       getPrices(req, res, body); 
-      //renderFolio(req, res, body); 
     }
   );
 };

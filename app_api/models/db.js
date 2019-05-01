@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var dbURI = 'mongodb://kevin@192.168.1.135:27017/folio';
+var dbURI = 'mongodb://mongodbuser:mongodbpass@mongodb:27017/foliodb';
 console.log('Connecting to MongoDB...') 
 mongoose.connect(dbURI);
 
@@ -45,4 +45,5 @@ process.on('SIGTERM', function () {
 
 // BRING IN YOUR SCHEMAS & MODELS
 require('./investments');
+require('./users');
 

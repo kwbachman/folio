@@ -8,11 +8,12 @@ var sendJsonResponse = function(res, status, content) {
 
 module.exports.usersReadOne = function (req, res) {
   console.log('Finding user details', req.params);
+  console.log(req);
   if (req.params && req.params.userId) {
     // Invest
     //   .findById(req.params.userId)
     Invest
-        .findOne({ 'username': req.params.userId })
+        .findOne({ 'investor': req.params.userId })
     	//.where('investments.symbol').equals('iot')
     	//.select('iot investments.shares')
         .exec(function(err, user) {
