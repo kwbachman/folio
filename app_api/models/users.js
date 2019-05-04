@@ -34,3 +34,10 @@ userSchema.methods.generateJwt = function() {
 };
 
 mongoose.model('User', userSchema);
+
+// Ensure to manually call the register api from Postman with the following parameters to prime the user document:
+// POST -- http://localhost/api/register
+// BODY --
+// x-www-form-urlencoded
+// username = kevin
+// password = xxxxxxxx
