@@ -56,7 +56,8 @@ module.exports.login = function(req, res) {
     if(user){
       token = user.generateJwt();
       res.cookie('access_token', token);
-      res.redirect('/investments'); // main page url
+      const newLocal = '/investments';
+      res.redirect(newLocal); // main page url
       // sendJSONresponse(res, 200, {
       //   "token" : token
       // });
