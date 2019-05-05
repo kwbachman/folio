@@ -92,7 +92,8 @@ module.exports.getFolio = function(req, res) {
   request (
     requestOptions,
     function(err, response, body) {
-      console.log(body);
+      //console.log(body);
+      console.log('getPrices...');
       getPrices(req, res, body); 
     }
   );

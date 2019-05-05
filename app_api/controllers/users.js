@@ -9,7 +9,7 @@ var sendJsonResponse = function(res, status, content) {
 module.exports.usersReadOne = function (req, res) {
   console.log('Logging usersReadOne request details...')
   console.log('Finding user details', req.params);
-  console.log(req);
+  //console.log(req);
   console.log('Done logging usersReadOne request details...')
   if (req.params && req.params.userId) { 
     // Invest

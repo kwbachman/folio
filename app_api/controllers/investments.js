@@ -11,6 +11,7 @@ module.exports.investmentsGetOne = function (req, res) {
 }
 
 module.exports.investmentsGet = function (req, res) {
+  console.log('Getting investments for a user...')
   console.log("Finding investor with username " + req.payload.username);
   if (req.payload.username) {
     // Invest

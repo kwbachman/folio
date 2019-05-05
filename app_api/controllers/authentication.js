@@ -37,7 +37,8 @@ module.exports.register = function(req, res) {
 };
 
 module.exports.login = function(req, res) {
-  console.log(req.body);
+  //console.log(req.body);
+  console.log('entering login function');
   if(!req.body.username || !req.body.password) {
     sendJSONresponse(res, 400, {
       "message": "All fields required"
@@ -56,8 +57,7 @@ module.exports.login = function(req, res) {
     if(user){
       token = user.generateJwt();
       res.cookie('access_token', token);
-      const newLocal = '/investments';
-      res.redirect(newLocal); // main page url
+      res.redirect('/investments'); // main page url
       // sendJSONresponse(res, 200, {
       //   "token" : token
       // });
