@@ -7,9 +7,11 @@ var sendJsonResponse = function(res, status, content) {
 }
 
 module.exports.usersReadOne = function (req, res) {
+  console.log('Logging usersReadOne request details...')
   console.log('Finding user details', req.params);
   console.log(req);
-  if (req.params && req.params.userId) {
+  console.log('Done logging usersReadOne request details...')
+  if (req.params && req.params.userId) { 
     // Invest
     //   .findById(req.params.userId)
     Invest
@@ -29,8 +31,8 @@ module.exports.usersReadOne = function (req, res) {
         }
 		var index = user.investments.findIndex(p => p.symbol == "eth")
 		var index2 = user.investments.find(p => p.symbol == "eth")
-		//console.log(index);
-		//console.log(index2.shares);
+		console.log(index);
+		console.log(index2.shares);
         //console.log(typeof user);
         //var test = user.find()
         //console.log(user.investments);
