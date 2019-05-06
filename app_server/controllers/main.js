@@ -29,6 +29,9 @@ var total = 0;
 
 var getPrices = function (req, res, body) {
 
+  console.log(req);
+  console.log(res);
+  console.log(body);
   console.log(`${req.method} request for '${req.url}'`);
 
   // Extract the investments symbols for a user as stored in DB
