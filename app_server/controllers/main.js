@@ -90,6 +90,7 @@ module.exports.getFolio = function(req, res) {
     method : "GET",
     json: {},
   }
+  console.log(requestOptions);
   request (
     requestOptions,
     function(err, response, body) {
