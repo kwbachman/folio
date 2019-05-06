@@ -7,13 +7,13 @@ const cc = require('cryptocompare');
 
 
 // setup request
-var request = require('request').debug = true;
+var request = require('request');
 var apiOptions = {
   server : "http://localhost:8080"
 };
-if (process.env.NODE_ENV === 'production') {
-  apiOptions.server = "http://" + process.env.NODEJS_SERVICE_HOST + ":8080"
-}
+//if (process.env.NODE_ENV === 'production') {
+//  apiOptions.server = "http://" + process.env.NODEJS_SERVICE_HOST + ":8080"
+//}
 
 // global variables
 var btc = 0;
