@@ -7,7 +7,7 @@ const cc = require('cryptocompare');
 
 
 // setup request
-var request = require('request');
+var request = require('request').debug = true;
 var apiOptions = {
   server : "http://localhost:8080"
 };
