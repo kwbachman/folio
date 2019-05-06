@@ -78,7 +78,7 @@ module.exports.getHome = function(req, res) {
 };
 
 module.exports.getFolio = function(req, res) {
-  //console.log("app server get username from cookie " + req.payload.username);
+  console.log("app server get username from cookie " + req.payload.username);
   // call internal api to retrieve users investments
   var requestOptions, path;
   //path = '/api/users/kevin';
