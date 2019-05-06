@@ -59,7 +59,7 @@ var getPrices = function (req, res, body) {
       inv[i].val = Number(((inv[i].shares*inv[i].USD).toFixed(2)));
     }
 
-    //console.log(inv);
+    console.log(inv);
     renderFolio(req, res, inv);
 
   })
@@ -68,7 +68,8 @@ var getPrices = function (req, res, body) {
 
 var renderFolio = function(req, res, invest){
   // Insert the calculated values into the html and render it
-  res.render('index', {invest: invest});
+  console.log('renderFolio...')
+  res.render('index', {invest: invest}); 
 }; 
 
 module.exports.getHome = function(req, res) {
