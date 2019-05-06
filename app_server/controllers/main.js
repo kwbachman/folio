@@ -29,9 +29,9 @@ var total = 0;
 
 var getPrices = function (req, res, body) {
 
-  console.log(req);
-  console.log(res);
-  console.log(body);
+  //console.log(req);
+  //console.log(res);
+  //console.log(body);
   console.log(`${req.method} request for '${req.url}'`);
 
   // Extract the investments symbols for a user as stored in DB
@@ -102,4 +102,7 @@ module.exports.getFolio = function(req, res) {
       getPrices(req, res, body); 
     }
   );
+  console.error('error:', error); // Print the error if one occurred
+  console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+  console.log('body:', body); // Print the HTML of the response.
 };
