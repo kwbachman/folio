@@ -12,7 +12,7 @@ var apiOptions = {
   server : "http://localhost:8080"
 };
 if (process.env.NODE_ENV === 'production') {
-  apiOptions.server = "http"
+  apiOptions.server = "http://" + process.env.NODEJS_SERVICE_HOST + ":8080"
 }
 
 // global variables
