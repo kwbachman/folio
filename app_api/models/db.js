@@ -76,3 +76,4 @@ require('./users');
 // 
 // db.investments.find({ username: "kevin" }, { password: 1, _id: 0 })
 // 
+// db.investments.update( { investor: "kevin" }, { $set: { "investments.1": { "symbol" : "miota", "shares" : 100 } } } )

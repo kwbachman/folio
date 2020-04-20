@@ -4,6 +4,7 @@ var coinmarketcap = new CoinMarketCap();
 var yahooFinance = require('yahoo-finance');
 global.fetch = require('node-fetch');
 const cc = require('cryptocompare');
+var Quandl = require("quandl");
 
 
 // setup request
@@ -45,7 +46,7 @@ var getPrices = function (req, res, body) {
     sym[i] = inv[i].symbol;
   }
 
-  // Convert symbols to uppercase
+// Convert symbols to uppercase 
   var symUpper = sym.map(item => item.toUpperCase());
   //console.log(symUpper); 
 
@@ -64,6 +65,7 @@ var getPrices = function (req, res, body) {
 
     console.log(inv);
     renderFolio(req, res, inv);
+    getEcon(req, res, inv);
 
   })
   .catch(console.error)
@@ -71,6 +73,39 @@ var getPrices = function (req, res, body) {
 
 var renderFolio = function(req, res, invest){
   // Insert the calculated values into the html and render it
+  console.log('renderFolio...')
+  res.render('index', {invest: invest}); 
+}; 
+
+var getEcon = function(req, res){
+  // Call quandl api to get economic data
+
+  var quandl = new Quandl({
+    auth_token: "355y_8xEVWRpmVmQBzMB",
+    api_version: 3
+  });
+   
+  quandl.dataset({
+    source: "RATEINF",
+    table: "INFLATION_USA"
+  }, {
+    limit: 1,
+  }, function(err, response){
+      if(err)
+          throw err;
+
+      var qData = JSON.parse(response).dataset.data; 
+      console.log(response);
+      qData.
+
+      var qDate = qData[2][0];
+      var qRate = qData[1][1];  
+      console.log(qData);
+      console.log(qDate);
+      console.log(qRate);
+
+  });
+
   console.log('renderFolio...')
   res.render('index', {invest: invest}); 
 }; 
