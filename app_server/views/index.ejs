@@ -108,6 +108,25 @@
             </tr>                    
         </table>
         <br>
+        <table>
+          <tr>
+              <th>Indicator</th>
+              <th>Date</th>
+              <th>Value</th>
+          </tr>
+          <% console.log(econ) %>
+          <tr>              
+              <td>Inflation Rate</td>
+              <td><%= econ[0][0] %></td>
+              <td><%= econ[0][1] %></td>
+          </tr>
+          <tr>
+            <td>Interest Rate</td>
+            <td><%= econ[1][0] %></td>
+            <td><%= econ[1][1] %></td>
+        </tr>                    
+      </table>        
+        <br>
         <br>
         <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
       </div>

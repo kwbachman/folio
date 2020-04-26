@@ -12,35 +12,19 @@ var request = require('request');
 var apiOptions = {
   server : "http://localhost:8080"
 };
+// The following lines can be used to read environment variables
 //if (process.env.NODE_ENV === 'production') {
 //  apiOptions.server = "http://" + process.env.NODEJS_SERVICE_HOST + ":8080"
 //}
 
-// global variables
-var btc = 0;
-var eth = 0;
-var iot = 0;
-var btcshare = .028644;
-var ethshare = .25;
-var iotshare = 100;
-var btcval = 0;
-var ethval = 0;
-var iotval = 0;
-var total = 0;
-
 var getPrices = function (req, res, body) {
 
-  //console.log(req);
-  //console.log(res);
-  //console.log(body);
   console.log(`${req.method} request for '${req.url}'`);
 
   // Extract the investments symbols for a user as stored in DB
+  // and hold them in an array
   var inv = body.investments;
   var sym = [];
-  var vals = {};
-  var money = {};
-  var str;
 
   for (var i = 0; i < inv.length; ++i) {
     sym[i] = inv[i].symbol;
@@ -48,7 +32,6 @@ var getPrices = function (req, res, body) {
 
 // Convert symbols to uppercase 
   var symUpper = sym.map(item => item.toUpperCase());
-  //console.log(symUpper); 
 
   // Get pricing quotes from CryptoCompare
   cc.priceMulti(symUpper, ['USD'])
@@ -63,23 +46,29 @@ var getPrices = function (req, res, body) {
       inv[i].val = Number(((inv[i].shares*inv[i].USD).toFixed(2)));
     }
 
-    console.log(inv);
-    renderFolio(req, res, inv);
-    getEcon(req, res, inv);
-
+    // Now that the investment prices are in memory, call the Quandl
+    // service to get economic data.  Don't render the page until after 
+    // the values are returned from Quandl to avoid page errors.  Use
+    // a callback for this.  MAYBE performance can be improved by 
+    // rednering the page before Quandl values are returned.
+    var eco = getEcon(res, inv, renderFolio);
+    
   })
   .catch(console.error)
 }
 
-var renderFolio = function(req, res, invest){
-  // Insert the calculated values into the html and render it
-  console.log('renderFolio...')
-  res.render('index', {invest: invest}); 
+var renderFolio = function(res, invest, econ){
+  // Transfer the values returned from the API to the ejs/html for rendering
+  console.log('renderFolio...');
+  res.render('index', {invest: invest,econ: econ}); 
 }; 
 
-var getEcon = function(req, res){
-  // Call quandl api to get economic data
+function getEcon(res, inv, callback) {
 
+  // Call two quandl APIs to get economic data.  Add the second call to the
+  // callback function so that the second call doesn't start until the first
+  // call is completed.  Quandl only allows one simultaneous call for free accounts.
+  // Not sure how strictly this is enforced.  Could try simultaneous call for increased performance.
   var quandl = new Quandl({
     auth_token: "355y_8xEVWRpmVmQBzMB",
     api_version: 3
@@ -94,20 +83,27 @@ var getEcon = function(req, res){
       if(err)
           throw err;
 
+      // Store the return data from the first in an array    
       var qData = JSON.parse(response).dataset.data; 
-      console.log(response);
-      qData.
+            
+      quandl.dataset({
+        source: "FED", 
+        table: "RIFSPFF_N_D"
+      }, {
+        limit: 1,
+      }, function(err, response){
+          if(err)
+              throw err;
+    
+          // Concatenate the return data from the second call
+          // in the same array as the first call     
+          var intData = JSON.parse(response).dataset.data; 
+          qData = qData.concat(intData);
 
-      var qDate = qData[2][0];
-      var qRate = qData[1][1];  
-      console.log(qData);
-      console.log(qDate);
-      console.log(qRate);
-
+          // Render the page using the values from the API calls
+          callback(res, inv, qData);
+      });
   });
-
-  console.log('renderFolio...')
-  res.render('index', {invest: invest}); 
 }; 
 
 module.exports.getHome = function(req, res) {
@@ -117,11 +113,9 @@ module.exports.getHome = function(req, res) {
 
 module.exports.getFolio = function(req, res) {
   console.log("app server get username from cookie " + req.payload.username);
-  // call internal api to retrieve users investments
+  // call internal api to retrieve user's investments
   var requestOptions, path;
-  //path = '/api/users/kevin';
   path = '/api/users/' + req.payload.username;
-  //path = '/api/investments';
   
   requestOptions = {
     url : apiOptions.server + path,
@@ -132,7 +126,6 @@ module.exports.getFolio = function(req, res) {
   request (
     requestOptions,
     function(err, response, body) {
-      //console.log(body);
       console.log('getPrices...');
       getPrices(req, res, body); 
     }
